@@ -5,7 +5,7 @@ input=$1
 root=$(egrep -o '[a-z]+' $input | sort | uniq -u)
 
 cat $input | sed -e 's/[,()>-]//g' | {
-  declare -A weight totalWeight children
+  declare -A weight children
   result=0
 
   calcTreeWeight() {
@@ -28,11 +28,10 @@ cat $input | sed -e 's/[,()>-]//g' | {
         else
           if [[ $wc -eq $w0 ]]; then
             echo "$c1 is unbalanced: $w1 instead of $w0, weight should be $((${weight[$c1]} + $w0 - $w1))"
-            exit
           else
             echo "$c0 is unbalanced: $w0 instead of $w1, weight should be $((${weight[$c0]} + $w1 - $w0))"
-            exit
           fi
+          exit
         fi
       fi
       ((w+=wc))
@@ -42,7 +41,6 @@ cat $input | sed -e 's/[,()>-]//g' | {
       exit
     else
       result=$((weight[$node] + w))
-#      echo "balanced node $node, weight ${weight[$node]}, children weight $w, total $result"
     fi
   }
 
