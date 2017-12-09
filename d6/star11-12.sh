@@ -6,15 +6,17 @@ declare -a s
 read -r -a s
 size=${#s[@]}
 
+c=0
 while true; do
   state="${s[*]}"
-  echo "$state"
-  if [[ ${seen[$state]} -eq 1 ]] ; then
+  if [[ ${seen[$state]} -gt 0 ]] ; then
     echo "seen state $state"
-    echo "count ${#seen[@]}"
+    echo "count $c"
+    echo "cycle $((c - ${seen[$state]}))"
     exit
   fi
-  seen["${s[@]}"]=1
+  ((c++))
+  seen["${s[@]}"]=$c
 
   v=0
   j=0
