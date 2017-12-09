@@ -9,14 +9,9 @@ size=${#s[@]}
 c=0
 while true; do
   state="${s[*]}"
-  if [[ ${seen[$state]} -gt 0 ]] ; then
-    echo "seen state $state"
-    echo "count $c"
-    echo "cycle $((c - ${seen[$state]}))"
-    exit
-  fi
-  ((c++))
-  seen["${s[@]}"]=$c
+  [[ ${seen[$state]} -gt 0 ]] && break
+
+  seen[$state]=$((++c))
 
   v=0
   j=0
@@ -33,3 +28,7 @@ while true; do
     ((v--))
   done
 done
+
+echo "seen state $state"
+echo "count $c"
+echo "cycle $((c - ${seen[$state]}))"
