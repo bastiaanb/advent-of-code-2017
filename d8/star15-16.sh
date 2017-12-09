@@ -1,10 +1,8 @@
 #!/bin/bash
 
-#n dec 271 if az < 3
-#f inc -978 if nm <= 9
-
 declare -A register
 
+max=0
 while read reg ins val iff opreg op opval ; do
   case $op in
      '<') [[ ${register[$opreg]} -lt $opval ]] ;;
@@ -19,7 +17,9 @@ while read reg ins val iff opreg op opval ; do
       dec) ((register[$reg]-=$val)) ;;
       inc) ((register[$reg]+=$val)) ;;
     esac
+    [[ ${register[$reg]} -gt $max ]] && max=${register[$reg]}
   fi
 done
 
 echo "${register[@]}" | sed -e 's/ /\n/g' | sort -nr | head -1
+echo $max
