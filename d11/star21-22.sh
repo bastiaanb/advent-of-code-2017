@@ -16,9 +16,19 @@ walk() {
     hd=${h#-}
     vd=$(((v-h)/2))
     vd=${vd#-}
-    echo $((vd+hd))
+    if [[ -n $DRAW ]]; then
+      echo -n "$(tput cup $((26-h/40)) $((105-v/40))) "
+    else
+      echo $((vd+hd))
+    fi
   done
 }
 
-walk < $1 | tail -1
-walk < $1 | sort -nr | head -1
+if [[ -n $DRAW ]]; then
+  clear
+  echo -n "$(tput setab 1)"
+  walk < $1
+else
+  walk < $1 | tail -1
+  walk < $1 | sort -nr | head -1
+fi
