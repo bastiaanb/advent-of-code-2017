@@ -22,7 +22,7 @@ sed 's/[,<>-]//g' | {
     done
 
     for i in "${!visited[@]}"; do
-      unset outgoing[$i]
+      unset "outgoing[$i]"
     done
   done
 
