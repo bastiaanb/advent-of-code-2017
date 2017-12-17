@@ -33,6 +33,6 @@ tr ',' '\n' <<< $input | {
       x) swap ${o%/*} ${o#*/} ;;
       p) pair ${o%/*} ${o#*/} ;;
     esac
-    echo $d
   done
+  echo $d
 }
